@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Hackathon Progress Tracker</title>
+  <meta name="description" content="Track participant progress and submit updates through a Cloudflare Worker API." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <noscript>
+    <div class="noscript-warning">JavaScript is required for the tracker to work.</div>
+  </noscript>
+
+  <header class="hero">
+    <div class="hero-content">
+      <p class="badge">Hosted on GitHub Pages</p>
+      <h1>AI Hackathon Progress Tracker</h1>
+      <p class="hero-subtitle">Track your progress, publish early, and keep building with AI.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>Participant details</h2>
+      <p class="section-copy">Fill in your details once. Your progress is saved in your browser while you work.</p>
+
+      <form id="participant-form" novalidate>
+        <label for="username">GitHub username <span class="required">*</span></label>
+        <input id="username" name="username" type="text" autocomplete="username" placeholder="for example: rishdev" required />
+
+        <label for="repoUrl">GitHub repository URL</label>
+        <input id="repoUrl" name="repoUrl" type="url" placeholder="https://github.com/username/repo" />
+
+        <label for="liveUrl">Live site URL</label>
+        <input id="liveUrl" name="liveUrl" type="url" placeholder="https://username.github.io/project" />
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Progress checklist</h2>
+      <p class="section-copy">Tick each activity when you complete it.</p>
+      <div id="progress-summary" class="progress-summary" aria-live="polite"></div>
+      <ul id="checklist" class="checklist"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Submit progress</h2>
+      <p class="section-copy">When you submit, your progress is sent directly to the shared API and the leaderboard refreshes from the latest saved data.</p>
+      <button id="submit-progress" type="button" class="primary-button">Save progress to leaderboard</button>
+      <p id="status-message" class="status-message" aria-live="polite"></p>
+      <p class="leaderboard-note">If the API is unavailable, your local browser copy of progress is still preserved.</p>
+    </section>
+
+    <section class="card">
+      <h2>Leaderboard</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Participant</th>
+              <th scope="col">Progress</th>
+              <th scope="col">Repo</th>
+              <th scope="col">Live Site</th>
+              <th scope="col">Last Updated</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+      <p id="leaderboard-empty" class="empty-message" hidden>No participant progress has been submitted yet.</p>
+    </section>
+
+    <section class="card">
+      <h2>Room progress overview</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Activity</th>
+              <th scope="col">Completed By</th>
+            </tr>
+          </thead>
+          <tbody id="room-progress-body"></tbody>
+        </table>
+      </div>
+      <p id="room-progress-empty" class="empty-message" hidden>No participant progress has been submitted yet.</p>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>Static frontend on GitHub Pages. API on Cloudflare Workers. Data in Cloudflare D1.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

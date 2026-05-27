@@ -1,0 +1,11 @@
+{
+  "name": "hackathon-progress-tracker-cloudflare",
+  "private": true,
+  "scripts": {
+    "check:site": "node --check docs/app.js",
+    "check:worker": "node --check worker/src/index.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.18.0"
+  }
+}
