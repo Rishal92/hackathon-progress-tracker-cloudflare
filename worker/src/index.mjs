@@ -66,14 +66,16 @@ function validatePayload(payload) {
   const liveUrl = validateOptionalUrl(payload.liveUrl, "liveUrl");
   const completedSteps = Array.isArray(payload.completedSteps) ? payload.completedSteps : [];
   const cleanCompletedSteps = [...new Set(completedSteps)].filter(stepId => allowedStepIds.has(stepId));
-  const answers = validateAnswers(payload.answers);
+  const hasAnswers = Object.prototype.hasOwnProperty.call(payload, "answers");
+  const answers = hasAnswers ? validateAnswers(payload.answers) : null;
 
   return {
     username,
     repoUrl,
     liveUrl,
     completedSteps: cleanCompletedSteps,
-    answers
+    answers,
+    hasAnswers
   };
 }
 
@@ -152,7 +154,6 @@ function validateOptionalUrl(value, fieldName) {
 async function upsertParticipant(env, payload) {
   const now = new Date().toISOString();
   const completedStepsJson = JSON.stringify(payload.completedSteps);
-  const answersJson = JSON.stringify(payload.answers || buildEmptyAnswers());
 
   await env.DB.prepare(
     `
@@ -168,17 +169,21 @@ async function upsertParticipant(env, payload) {
     .bind(payload.username, payload.repoUrl, payload.liveUrl, completedStepsJson, now, now)
     .run();
 
-  await env.DB.prepare(
-    `
-      INSERT INTO participant_answers (username, answers_json, created_at, updated_at)
-      VALUES (?1, ?2, ?3, ?4)
-      ON CONFLICT(username) DO UPDATE SET
-        answers_json = excluded.answers_json,
-        updated_at = excluded.updated_at
-    `
-  )
-    .bind(payload.username, answersJson, now, now)
-    .run();
+  if (payload.hasAnswers) {
+    const answersJson = JSON.stringify(payload.answers || buildEmptyAnswers());
+
+    await env.DB.prepare(
+      `
+        INSERT INTO participant_answers (username, answers_json, created_at, updated_at)
+        VALUES (?1, ?2, ?3, ?4)
+        ON CONFLICT(username) DO UPDATE SET
+          answers_json = excluded.answers_json,
+          updated_at = excluded.updated_at
+      `
+    )
+      .bind(payload.username, answersJson, now, now)
+      .run();
+  }
 }
 
 async function listParticipants(env) {

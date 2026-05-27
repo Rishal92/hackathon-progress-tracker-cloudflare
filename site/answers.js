@@ -26,6 +26,7 @@ const elements = {
 };
 
 let participants = [];
+let preferredUsername = "";
 
 document.addEventListener("DOMContentLoaded", () => {
   init().catch(error => {
@@ -38,6 +39,13 @@ async function init() {
   hydrateUsernameFromLocalStorage();
 
   elements.loadButton.addEventListener("click", handleLoadAnswers);
+  elements.username.addEventListener("change", () => {
+    if (!elements.username.value) {
+      return;
+    }
+
+    loadAnswersForUsername(elements.username.value);
+  });
   elements.saveButton.addEventListener("click", handleSaveAnswers);
   elements.refreshButton.addEventListener("click", refreshParticipants);
 
@@ -56,16 +64,26 @@ function hydrateUsernameFromQueryParam() {
     return;
   }
 
-  elements.username.value = rawUser;
+  try {
+    preferredUsername = normaliseUsername(rawUser);
+  } catch {
+    preferredUsername = "";
+  }
 }
 
 async function refreshParticipants() {
   const data = await fetchProgress();
   participants = Array.isArray(data.participants) ? data.participants : [];
+  populateUsernameDropdown(participants);
   renderAnswersList(participants);
 }
 
 async function handleLoadAnswers() {
+  if (!elements.username.value) {
+    showStatus("Select a participant username first.", "error");
+    return;
+  }
+
   const username = normaliseUsername(elements.username.value);
   elements.username.value = username;
   loadAnswersForUsername(username);
@@ -85,6 +103,11 @@ function loadAnswersForUsername(username) {
 }
 
 async function handleSaveAnswers() {
+  if (!elements.username.value) {
+    showStatus("Select a participant username first.", "error");
+    return;
+  }
+
   const username = normaliseUsername(elements.username.value);
   elements.username.value = username;
 
@@ -122,6 +145,33 @@ async function handleSaveAnswers() {
   participants = Array.isArray(data.participants) ? data.participants : [];
   renderAnswersList(participants);
   showStatus(`Saved answers for @${username}. Existing answers were overwritten.`, "success");
+}
+
+function populateUsernameDropdown(rows) {
+  const usernames = [...new Set(rows.map(item => item.username).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  const selected = elements.username.value || preferredUsername;
+
+  elements.username.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Select a participant";
+  elements.username.appendChild(placeholder);
+
+  usernames.forEach(username => {
+    const option = document.createElement("option");
+    option.value = username;
+    option.textContent = `@${username}`;
+    elements.username.appendChild(option);
+  });
+
+  if (selected && usernames.includes(selected)) {
+    elements.username.value = selected;
+    preferredUsername = selected;
+    return;
+  }
+
+  elements.username.value = "";
 }
 
 function renderAnswersList(rows) {
@@ -236,7 +286,7 @@ function hydrateUsernameFromLocalStorage() {
     const parsed = JSON.parse(raw);
 
     if (parsed && typeof parsed.username === "string") {
-      elements.username.value = parsed.username;
+      preferredUsername = parsed.username;
     }
   } catch {
     // Ignore invalid local storage data.

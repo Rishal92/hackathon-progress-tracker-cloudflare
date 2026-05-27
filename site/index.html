@@ -54,27 +54,6 @@
     <section class="card">
       <h2>Submit progress</h2>
       <p class="section-copy">When you submit, your progress is sent directly to the shared API and the leaderboard refreshes from the latest saved data.</p>
-
-      <div class="answers-grid">
-        <label for="answer-what-changed">1. What I changed</label>
-        <textarea id="answer-what-changed" rows="3" placeholder="Summarise the updates you made"></textarea>
-
-        <label for="answer-why-changed">2. Why I changed it</label>
-        <textarea id="answer-why-changed" rows="3" placeholder="Explain your reasoning"></textarea>
-
-        <label for="answer-visitor-experience">3. How this improves the visitor experience</label>
-        <textarea id="answer-visitor-experience" rows="3" placeholder="Describe the visitor impact"></textarea>
-
-        <label for="answer-seo-clarity">4. How this improves SEO or content clarity</label>
-        <textarea id="answer-seo-clarity" rows="3" placeholder="Describe SEO or content clarity impact"></textarea>
-
-        <label for="answer-ai-usage">5. How I used AI during the process</label>
-        <textarea id="answer-ai-usage" rows="3" placeholder="Share how AI helped"></textarea>
-
-        <label for="answer-next-improvement">6. What I would improve next with more time</label>
-        <textarea id="answer-next-improvement" rows="3" placeholder="What comes next?"></textarea>
-      </div>
-
       <button id="submit-progress" type="button" class="primary-button">Save progress to leaderboard</button>
       <p id="status-message" class="status-message" aria-live="polite"></p>
       <p class="leaderboard-note">If the API is unavailable, your local browser copy of progress is still preserved.</p>
@@ -85,7 +64,7 @@
       <p class="section-copy">This table refreshes when you submit or tap refresh now.</p>
       <div class="leaderboard-actions">
         <button id="refresh-progress" type="button" class="secondary-button">Refresh now</button>
-        <a class="secondary-button answers-link" href="answers.html">View participant answers</a>
+        <a class="secondary-button answers-link" href="answers.html">Participant questions and answers</a>
       </div>
       <p id="sync-status" class="sync-status" aria-live="polite">Connecting to live updates...</p>
       <div class="table-wrap">
