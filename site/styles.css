@@ -70,6 +70,39 @@ h1 {
   max-width: 680px;
 }
 
+.countdown-card {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fff7ed 0%, #fff 45%, #eef2ff 100%);
+  border: 1px solid #f3d7b8;
+  box-shadow: var(--shadow-soft);
+  max-width: 520px;
+}
+
+.countdown-label {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.countdown-timer {
+  margin: 8px 0 0;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--color-text);
+}
+
+.countdown-status {
+  margin: 8px 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
 .layout {
   max-width: 960px;
   margin: 0 auto;

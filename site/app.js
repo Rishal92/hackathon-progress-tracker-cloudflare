@@ -64,7 +64,7 @@ const schedule = [
 const localStorageKey = "ai-hackathon-progress-current-user";
 const productionApiBaseUrl = "https://REPLACE_WITH_YOUR_WORKER_URL";
 const localApiBaseUrl = "http://127.0.0.1:8787";
-const leaderboardRefreshMs = 30 * 60 * 1000;
+const countdownTarget = new Date(2026, 4, 28, 16, 20, 0);
 
 const apiBaseUrl = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? localApiBaseUrl
@@ -81,6 +81,8 @@ const elements = {
   refreshButton: document.getElementById("refresh-progress"),
   statusMessage: document.getElementById("status-message"),
   syncStatus: document.getElementById("sync-status"),
+  countdownTimer: document.getElementById("countdown-timer"),
+  countdownStatus: document.getElementById("countdown-status"),
   leaderboardBody: document.getElementById("leaderboard-body"),
   leaderboardEmpty: document.getElementById("leaderboard-empty"),
   roomProgressBody: document.getElementById("room-progress-body"),
@@ -113,9 +115,8 @@ async function init() {
   });
 
   await refreshSharedProgress();
-  window.setInterval(() => {
-    refreshSharedProgress({ quiet: true });
-  }, leaderboardRefreshMs);
+  updateCountdownTimer();
+  window.setInterval(updateCountdownTimer, 1000);
 }
 
 async function refreshSharedProgress(options = {}) {
@@ -134,6 +135,30 @@ async function refreshSharedProgress(options = {}) {
 
     showSyncStatus(formatApiErrorMessage(`Live sync unavailable: ${error.message}`), "error");
   }
+}
+
+function updateCountdownTimer() {
+  if (!elements.countdownTimer || !elements.countdownStatus) {
+    return;
+  }
+
+  const now = new Date();
+  const timeRemaining = countdownTarget.getTime() - now.getTime();
+
+  if (timeRemaining <= 0) {
+    elements.countdownTimer.textContent = "0d 0h 0m 0s";
+    elements.countdownStatus.textContent = "The countdown has ended.";
+    return;
+  }
+
+  const totalSeconds = Math.floor(timeRemaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  elements.countdownTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  elements.countdownStatus.textContent = "The timer uses your local browser time.";
 }
 
 async function loadProgress() {

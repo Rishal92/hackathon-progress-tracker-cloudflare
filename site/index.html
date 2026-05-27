@@ -17,6 +17,11 @@
       <p class="badge">Hosted on GitHub Pages</p>
       <h1>AI Hackathon Progress Tracker</h1>
       <p class="hero-subtitle">Track your progress, publish early, and keep building with AI.</p>
+      <div class="countdown-card" aria-live="polite">
+        <p class="countdown-label">Countdown to 4:20 pm on 28 May 2026</p>
+        <p id="countdown-timer" class="countdown-timer">Loading countdown...</p>
+        <p id="countdown-status" class="countdown-status"></p>
+      </div>
     </div>
   </header>
 
@@ -54,7 +59,7 @@
 
     <section class="card">
       <h2>Leaderboard</h2>
-      <p class="section-copy">This table refreshes automatically from the live API.</p>
+      <p class="section-copy">This table refreshes when you submit or tap refresh now.</p>
       <div class="leaderboard-actions">
         <button id="refresh-progress" type="button" class="secondary-button">Refresh now</button>
       </div>

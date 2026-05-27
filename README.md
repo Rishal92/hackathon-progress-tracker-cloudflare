@@ -22,8 +22,8 @@ This repository uses a live API model, not an IssueOps workflow.
 - Saves in-progress state to localStorage
 - Submits progress directly to the Worker API
 - Loads the shared leaderboard from the Worker API
-- Refreshes leaderboard and room progress automatically from the API every 30 minutes
-- Includes a manual "Refresh now" action for projector/demo use
+- Refreshes leaderboard and room progress when you submit or tap "Refresh now"
+- Includes a countdown timer to 4:20 pm on 28 May 2026
 - Shows room-wide completion totals per activity
 
 ## Local Development
