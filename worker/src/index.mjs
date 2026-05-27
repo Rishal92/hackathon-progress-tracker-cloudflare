@@ -183,9 +183,7 @@ function jsonResponse(body, status, request, env) {
 
 function buildCorsHeaders(request, env) {
   const origin = request.headers.get("Origin");
-  const allowedOrigin = env.ALLOWED_ORIGIN && env.ALLOWED_ORIGIN.includes("REPLACE")
-    ? "*"
-    : env.ALLOWED_ORIGIN || "*";
+  const allowedOrigin = normaliseAllowedOrigin(env.ALLOWED_ORIGIN);
 
   return {
     "Access-Control-Allow-Origin": origin && allowedOrigin !== "*" ? allowedOrigin : allowedOrigin,
@@ -193,4 +191,23 @@ function buildCorsHeaders(request, env) {
     "Access-Control-Allow-Headers": "Content-Type",
     Vary: "Origin"
   };
+}
+
+function normaliseAllowedOrigin(rawValue) {
+  if (!rawValue || rawValue.includes("REPLACE")) {
+    return "*";
+  }
+
+  const value = String(rawValue).trim();
+
+  if (!value) {
+    return "*";
+  }
+
+  try {
+    const parsed = new URL(value);
+    return parsed.origin;
+  } catch {
+    return value.replace(/\/+$/, "");
+  }
 }
