@@ -1,11 +1,13 @@
 :root {
-  --color-bg: #f7f8fb;
+  --color-bg: #f4f2f7;
   --color-surface: #ffffff;
-  --color-text: #172033;
+  --color-surface-alt: #fff8fb;
+  --color-text: #16202f;
   --color-muted: #667085;
-  --color-primary: #ed3266;
-  --color-primary-dark: #c91f52;
-  --color-border: #e4e7ec;
+  --color-primary: #ed494f;
+  --color-primary-dark: #c4296b;
+  --color-secondary: #f16451;
+  --color-border: #eadfe7;
   --color-success: #16a34a;
   --color-warning: #f59e0b;
   --radius-lg: 18px;
@@ -24,7 +26,10 @@ body {
 
 body {
   font-family: "Trebuchet MS", "Gill Sans", "Segoe UI", sans-serif;
-  background: radial-gradient(circle at 20% 15%, #fff2f6 0%, #f7f8fb 42%, #edf2ff 100%);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(237, 73, 79, 0.08) 0%, rgba(237, 73, 79, 0) 32%),
+    radial-gradient(circle at 85% 12%, rgba(196, 41, 107, 0.08) 0%, rgba(196, 41, 107, 0) 28%),
+    linear-gradient(180deg, #f8f5fa 0%, #f4f2f7 100%);
   color: var(--color-text);
   line-height: 1.5;
 }
@@ -38,35 +43,62 @@ body {
 }
 
 .hero {
-  padding: 28px 16px 20px;
+  position: relative;
+  overflow: hidden;
+  padding: 28px 16px 28px;
+  background:
+    linear-gradient(180deg, rgba(30, 30, 30, 0.93) 0%, rgba(30, 30, 30, 0.86) 100%),
+    url("assets/Fuse%20Background%204.svg") center top / cover no-repeat;
+  color: #fff;
 }
 
 .hero-content {
   max-width: 960px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-brand {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.hero-logo {
+  width: min(280px, 72vw);
+  height: auto;
+  display: block;
 }
 
 .badge {
   display: inline-block;
-  margin: 0 0 14px;
+  margin: 0;
   padding: 6px 12px;
   border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--color-border);
-  color: var(--color-muted);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 0.85rem;
+}
+
+.badge-dark {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 h1 {
   margin: 0;
   font-size: clamp(1.9rem, 4vw, 3rem);
   line-height: 1.1;
+  color: #fff;
 }
 
 .hero-subtitle {
   margin: 12px 0 0;
   font-size: 1.05rem;
-  color: var(--color-muted);
+  color: rgba(255, 255, 255, 0.82);
   max-width: 680px;
 }
 
@@ -74,15 +106,16 @@ h1 {
   margin-top: 18px;
   padding: 16px 18px;
   border-radius: 18px;
-  background: linear-gradient(135deg, #fff7ed 0%, #fff 45%, #eef2ff 100%);
-  border: 1px solid #f3d7b8;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: var(--shadow-soft);
   max-width: 520px;
+  backdrop-filter: blur(12px);
 }
 
 .countdown-label {
   margin: 0;
-  color: var(--color-muted);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -94,12 +127,12 @@ h1 {
   font-size: clamp(1.8rem, 5vw, 3rem);
   font-weight: 800;
   line-height: 1.05;
-  color: var(--color-text);
+  color: #fff;
 }
 
 .countdown-status {
   margin: 8px 0 0;
-  color: var(--color-muted);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 0.95rem;
 }
 
@@ -161,8 +194,8 @@ a:focus-visible {
   margin: 8px 0 16px;
   padding: 12px;
   border-radius: 12px;
-  background: #f8fafc;
-  border: 1px dashed #d0d9ea;
+  background: linear-gradient(135deg, #fffdfd 0%, #fff7fb 100%);
+  border: 1px dashed rgba(237, 73, 79, 0.2);
   font-weight: 600;
 }
 
@@ -228,7 +261,7 @@ a:focus-visible {
 .primary-button {
   border: 0;
   border-radius: 12px;
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: #fff;
   font-size: 1rem;
   font-weight: 700;
@@ -238,7 +271,7 @@ a:focus-visible {
 }
 
 .primary-button:hover {
-  background: var(--color-primary-dark);
+  filter: brightness(1.03);
 }
 
 .secondary-button {
@@ -253,7 +286,7 @@ a:focus-visible {
 }
 
 .secondary-button:hover {
-  background: #f8fafc;
+  background: var(--color-surface-alt);
 }
 
 .status-message {
@@ -317,11 +350,11 @@ th {
 }
 
 tbody tr:nth-child(1) {
-  background: #fff7ed;
+  background: #fff1f2;
 }
 
 tbody tr:nth-child(2) {
-  background: #fffbeb;
+  background: #fff7ed;
 }
 
 tbody tr:nth-child(3) {
@@ -347,5 +380,9 @@ tbody tr:nth-child(3) {
 
   .card {
     padding: 22px;
+  }
+
+  .hero {
+    padding: 40px 16px 34px;
   }
 }
