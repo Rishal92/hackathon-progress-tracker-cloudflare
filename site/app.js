@@ -138,7 +138,7 @@ async function refreshSharedProgress(options = {}) {
 
 async function loadProgress() {
   if (productionApiBaseUrl.includes("REPLACE") && !["localhost", "127.0.0.1"].includes(window.location.hostname)) {
-    throw new Error("Set productionApiBaseUrl in docs/app.js before deploying the frontend.");
+    throw new Error("Set productionApiBaseUrl in site/app.js before deploying the frontend.");
   }
 
   const response = await fetch(`${apiBaseUrl}/api/progress?cacheBust=${Date.now()}`, {

@@ -175,6 +175,7 @@ function jsonResponse(body, status, request, env) {
     status,
     headers: {
       "Content-Type": "application/json",
+      "Cache-Control": "no-store",
       ...buildCorsHeaders(request, env)
     }
   });
@@ -189,6 +190,7 @@ function buildCorsHeaders(request, env) {
   return {
     "Access-Control-Allow-Origin": origin && allowedOrigin !== "*" ? allowedOrigin : allowedOrigin,
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin"
   };
 }

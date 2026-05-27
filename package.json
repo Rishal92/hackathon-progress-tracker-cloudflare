@@ -2,7 +2,7 @@
   "name": "hackathon-progress-tracker-cloudflare",
   "private": true,
   "scripts": {
-    "check:site": "node --check docs/app.js",
+    "check:site": "node --check site/app.js",
     "check:worker": "node --check worker/src/index.mjs"
   },
   "devDependencies": {

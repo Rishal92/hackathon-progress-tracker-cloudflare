@@ -1,9 +1,9 @@
-name = "hackathon-progress-api"
+name = "fuse-hackathon-api"
 main = "src/index.mjs"
 compatibility_date = "2026-05-27"
 
 [vars]
-ALLOWED_ORIGIN = "https://REPLACE_WITH_YOUR_GITHUB_PAGES_ORIGIN"
+ALLOWED_ORIGIN = "https://REPLACE_WITH_YOUR_PAGES_ORIGIN"
 
 [[d1_databases]]
 binding = "DB"
