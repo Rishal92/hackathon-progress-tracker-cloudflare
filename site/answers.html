@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Participant Answers | AI Hackathon Progress Tracker</title>
+  <meta name="description" content="View and update participant answers for the AI Hackathon." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <noscript>
+    <div class="noscript-warning">JavaScript is required for the answers page to work.</div>
+  </noscript>
+
+  <header class="hero answers-hero">
+    <div class="hero-content">
+      <div class="hero-brand">
+        <img class="hero-logo" src="assets/fuse-digital-logo-black-text-512px.png" alt="Fuse Digital" />
+      </div>
+      <h1>Participant Answers</h1>
+      <p class="hero-subtitle">Review each participant's written reflections and update your own answers anytime.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>Edit your answers</h2>
+      <p class="section-copy">Enter your GitHub username to load your current saved answers. You can overwrite them and save again.</p>
+
+      <label for="answers-username">GitHub username</label>
+      <input id="answers-username" type="text" placeholder="for example: rishdev" />
+      <button id="load-answers" type="button" class="secondary-button">Load my answers</button>
+
+      <div class="answers-grid">
+        <label for="answers-what-changed">1. What I changed</label>
+        <textarea id="answers-what-changed" rows="3"></textarea>
+
+        <label for="answers-why-changed">2. Why I changed it</label>
+        <textarea id="answers-why-changed" rows="3"></textarea>
+
+        <label for="answers-visitor-experience">3. How this improves the visitor experience</label>
+        <textarea id="answers-visitor-experience" rows="3"></textarea>
+
+        <label for="answers-seo-clarity">4. How this improves SEO or content clarity</label>
+        <textarea id="answers-seo-clarity" rows="3"></textarea>
+
+        <label for="answers-ai-usage">5. How I used AI during the process</label>
+        <textarea id="answers-ai-usage" rows="3"></textarea>
+
+        <label for="answers-next-improvement">6. What I would improve next with more time</label>
+        <textarea id="answers-next-improvement" rows="3"></textarea>
+      </div>
+
+      <button id="save-answers" type="button" class="primary-button">Save and overwrite my answers</button>
+      <p id="answers-status" class="status-message" aria-live="polite"></p>
+      <p class="leaderboard-note"><a href="index.html">Back to progress tracker</a></p>
+    </section>
+
+    <section class="card">
+      <h2>All participant answers</h2>
+      <p class="section-copy">Use this page during review sessions to compare participant thinking.</p>
+      <button id="refresh-answers" type="button" class="secondary-button">Refresh answers list</button>
+      <div id="answers-list" class="answers-list"></div>
+      <p id="answers-empty" class="empty-message" hidden>No participant answers have been submitted yet.</p>
+    </section>
+  </main>
+
+  <script src="answers.js"></script>
+</body>
+</html>

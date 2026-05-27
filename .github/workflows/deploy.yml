@@ -105,6 +105,7 @@ jobs:
           mkdir -p _site
           cp -R site/. _site/
           sed -i "s|https://REPLACE_WITH_YOUR_WORKER_URL|${WORKER_API_BASE_URL}|g" _site/app.js
+          sed -i "s|https://REPLACE_WITH_YOUR_WORKER_URL|${WORKER_API_BASE_URL}|g" _site/answers.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

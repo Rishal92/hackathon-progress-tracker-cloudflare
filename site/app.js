@@ -75,6 +75,12 @@ const elements = {
   username: document.getElementById("username"),
   repoUrl: document.getElementById("repoUrl"),
   liveUrl: document.getElementById("liveUrl"),
+  answerWhatChanged: document.getElementById("answer-what-changed"),
+  answerWhyChanged: document.getElementById("answer-why-changed"),
+  answerVisitorExperience: document.getElementById("answer-visitor-experience"),
+  answerSeoClarity: document.getElementById("answer-seo-clarity"),
+  answerAiUsage: document.getElementById("answer-ai-usage"),
+  answerNextImprovement: document.getElementById("answer-next-improvement"),
   checklist: document.getElementById("checklist"),
   progressSummary: document.getElementById("progress-summary"),
   submitButton: document.getElementById("submit-progress"),
@@ -239,6 +245,7 @@ function renderLeaderboard(participants) {
       <td>${participant.completedSteps.length} / ${schedule.length}</td>
       <td>${renderLinkOrDash(participant.repoUrl, "Repo")}</td>
       <td>${renderLinkOrDash(participant.liveUrl, "Live")}</td>
+      <td><a href="answers.html?user=${encodeURIComponent(participant.username)}">View answers</a></td>
       <td>${formatDate(participant.updatedAt)}</td>
     `;
     elements.leaderboardBody.appendChild(row);
@@ -333,7 +340,15 @@ function buildProgressPayload() {
     username: elements.username.value,
     repoUrl: elements.repoUrl.value,
     liveUrl: elements.liveUrl.value,
-    completedSteps: [...state.completedSteps]
+    completedSteps: [...state.completedSteps],
+    answers: {
+      whatIChanged: elements.answerWhatChanged.value,
+      whyIChangedIt: elements.answerWhyChanged.value,
+      visitorExperienceImprovement: elements.answerVisitorExperience.value,
+      seoOrClarityImprovement: elements.answerSeoClarity.value,
+      howIUsedAI: elements.answerAiUsage.value,
+      whatToImproveNext: elements.answerNextImprovement.value
+    }
   };
 }
 
@@ -442,6 +457,16 @@ function hydrateFromLocalStorage() {
   elements.repoUrl.value = saved.repoUrl;
   elements.liveUrl.value = saved.liveUrl;
   state.completedSteps = [...saved.completedSteps];
+
+  if (saved.answers && typeof saved.answers === "object") {
+    elements.answerWhatChanged.value = saved.answers.whatIChanged || "";
+    elements.answerWhyChanged.value = saved.answers.whyIChangedIt || "";
+    elements.answerVisitorExperience.value = saved.answers.visitorExperienceImprovement || "";
+    elements.answerSeoClarity.value = saved.answers.seoOrClarityImprovement || "";
+    elements.answerAiUsage.value = saved.answers.howIUsedAI || "";
+    elements.answerNextImprovement.value = saved.answers.whatToImproveNext || "";
+  }
+
   renderSchedule();
 }
 

@@ -11,6 +11,15 @@ const allowedStepIds = new Set([
   "founder-judging"
 ]);
 
+const answerFields = [
+  "whatIChanged",
+  "whyIChangedIt",
+  "visitorExperienceImprovement",
+  "seoOrClarityImprovement",
+  "howIUsedAI",
+  "whatToImproveNext"
+];
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -57,12 +66,46 @@ function validatePayload(payload) {
   const liveUrl = validateOptionalUrl(payload.liveUrl, "liveUrl");
   const completedSteps = Array.isArray(payload.completedSteps) ? payload.completedSteps : [];
   const cleanCompletedSteps = [...new Set(completedSteps)].filter(stepId => allowedStepIds.has(stepId));
+  const answers = validateAnswers(payload.answers);
 
   return {
     username,
     repoUrl,
     liveUrl,
-    completedSteps: cleanCompletedSteps
+    completedSteps: cleanCompletedSteps,
+    answers
+  };
+}
+
+function validateAnswers(rawAnswers) {
+  if (!rawAnswers || typeof rawAnswers !== "object") {
+    return buildEmptyAnswers();
+  }
+
+  const answers = {};
+
+  answerFields.forEach(field => {
+    const value = rawAnswers[field];
+
+    if (typeof value !== "string") {
+      answers[field] = "";
+      return;
+    }
+
+    answers[field] = value.trim().slice(0, 4000);
+  });
+
+  return answers;
+}
+
+function buildEmptyAnswers() {
+  return {
+    whatIChanged: "",
+    whyIChangedIt: "",
+    visitorExperienceImprovement: "",
+    seoOrClarityImprovement: "",
+    howIUsedAI: "",
+    whatToImproveNext: ""
   };
 }
 
@@ -109,6 +152,7 @@ function validateOptionalUrl(value, fieldName) {
 async function upsertParticipant(env, payload) {
   const now = new Date().toISOString();
   const completedStepsJson = JSON.stringify(payload.completedSteps);
+  const answersJson = JSON.stringify(payload.answers || buildEmptyAnswers());
 
   await env.DB.prepare(
     `
@@ -123,13 +167,26 @@ async function upsertParticipant(env, payload) {
   )
     .bind(payload.username, payload.repoUrl, payload.liveUrl, completedStepsJson, now, now)
     .run();
+
+  await env.DB.prepare(
+    `
+      INSERT INTO participant_answers (username, answers_json, created_at, updated_at)
+      VALUES (?1, ?2, ?3, ?4)
+      ON CONFLICT(username) DO UPDATE SET
+        answers_json = excluded.answers_json,
+        updated_at = excluded.updated_at
+    `
+  )
+    .bind(payload.username, answersJson, now, now)
+    .run();
 }
 
 async function listParticipants(env) {
   const result = await env.DB.prepare(
     `
-      SELECT username, repo_url, live_url, completed_steps_json, created_at, updated_at
-      FROM participants
+      SELECT p.username, p.repo_url, p.live_url, p.completed_steps_json, p.created_at, p.updated_at, a.answers_json
+      FROM participants p
+      LEFT JOIN participant_answers a ON a.username = p.username
     `
   ).all();
 
@@ -140,6 +197,7 @@ async function listParticipants(env) {
     repoUrl: row.repo_url,
     liveUrl: row.live_url,
     completedSteps: parseCompletedSteps(row.completed_steps_json),
+    answers: parseAnswers(row.answers_json),
     createdAt: row.created_at,
     updatedAt: row.updated_at
   }));
@@ -209,5 +267,17 @@ function normaliseAllowedOrigin(rawValue) {
     return parsed.origin;
   } catch {
     return value.replace(/\/+$/, "");
+  }
+}
+
+function parseAnswers(rawValue) {
+  if (!rawValue) {
+    return buildEmptyAnswers();
+  }
+
+  try {
+    return validateAnswers(JSON.parse(rawValue));
+  } catch {
+    return buildEmptyAnswers();
   }
 }

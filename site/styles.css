@@ -168,6 +168,18 @@ input[type="url"] {
   background: #fff;
 }
 
+textarea {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: #fff;
+  resize: vertical;
+  min-height: 86px;
+}
+
 input:focus-visible,
 button:focus-visible,
 a:focus-visible {
@@ -272,6 +284,44 @@ a:focus-visible {
 
 .secondary-button:hover {
   background: var(--color-surface-alt);
+}
+
+.answers-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.answers-grid {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.answers-list {
+  margin-top: 14px;
+  display: grid;
+  gap: 14px;
+}
+
+.answer-card {
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px;
+}
+
+.answer-card h3 {
+  margin: 0 0 6px;
+}
+
+.answer-card p {
+  margin: 8px 0 0;
+}
+
+.answer-meta {
+  color: var(--color-muted);
+  font-size: 0.9rem;
 }
 
 .status-message {
