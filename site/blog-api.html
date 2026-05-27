@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fuse Blog Content API | Integration Guide</title>
+  <meta name="description" content="Integration guide for the Fuse Blog Content API endpoints and fields." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <noscript>
+    <div class="noscript-warning">JavaScript is required for the API guide to render live examples.</div>
+  </noscript>
+
+  <header class="hero answers-hero">
+    <div class="hero-content">
+      <div class="hero-brand">
+        <img class="hero-logo" src="assets/fuse-digital-logo-black-text-512px.png" alt="Fuse Digital" />
+      </div>
+      <h1>Fuse Blog Content API</h1>
+      <p class="hero-subtitle">Endpoint reference and quick integration notes for frontend teams.</p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>Integration Guide</h2>
+      <p class="section-copy">Use these values to integrate blog list and article detail views into your app.</p>
+
+      <dl class="api-grid">
+        <dt>API base URL</dt>
+        <dd id="api-base-url">-</dd>
+
+        <dt>Endpoint for list of posts</dt>
+        <dd id="api-list-endpoint">-</dd>
+
+        <dt>Endpoint for individual post</dt>
+        <dd id="api-item-endpoint">-</dd>
+
+        <dt>Authentication required</dt>
+        <dd>No</dd>
+
+        <dt>Available fields</dt>
+        <dd>id, title, excerpt, category, tags, author, publishedDate, url, imageUrl, content</dd>
+
+        <dt>Image behaviour</dt>
+        <dd>imageUrl may be null or omitted. Use a default card image in your frontend when unavailable.</dd>
+
+        <dt>Category/tag fields</dt>
+        <dd>category is a string. tags is an array of strings.</dd>
+
+        <dt>Date format</dt>
+        <dd>YYYY-MM-DD (ISO-like date string, local formatting handled by frontend).</dd>
+
+        <dt>Author field</dt>
+        <dd>author is a plain text string.</dd>
+      </dl>
+
+      <p id="blog-api-status" class="status-message" aria-live="polite"></p>
+      <p class="leaderboard-note"><a href="index.html">Back to progress tracker</a></p>
+    </section>
+
+    <section class="card">
+      <h2>Example Response</h2>
+      <p class="section-copy">Live sample from <code>/api/blog</code>.</p>
+      <pre id="blog-example-response" class="code-block">Loading sample response...</pre>
+    </section>
+
+    <section class="card">
+      <h2>Live Posts</h2>
+      <p class="section-copy">Current posts from the blog API.</p>
+      <div id="blog-posts-list" class="answers-list"></div>
+      <p id="blog-posts-empty" class="empty-message" hidden>No posts found.</p>
+    </section>
+  </main>
+
+  <script src="blog-api.js"></script>
+</body>
+</html>

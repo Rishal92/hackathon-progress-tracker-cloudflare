@@ -325,6 +325,35 @@ a:focus-visible {
   font-size: 0.9rem;
 }
 
+.api-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 10px 16px;
+  margin: 0;
+}
+
+.api-grid dt {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.api-grid dd {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.code-block {
+  margin: 0;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: #101828;
+  color: #f8fafc;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
 .status-message {
   min-height: 1.4em;
   margin: 12px 0 0;
@@ -420,5 +449,11 @@ tbody tr:nth-child(3) {
 
   .hero {
     padding: 40px 16px 34px;
+  }
+}
+
+@media (max-width: 740px) {
+  .api-grid {
+    grid-template-columns: 1fr;
   }
 }
