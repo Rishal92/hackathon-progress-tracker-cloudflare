@@ -417,18 +417,7 @@ function parseAnswers(rawValue) {
 
 function listBlogPosts() {
   return [...blogPosts]
-    .sort((a, b) => b.publishedDate.localeCompare(a.publishedDate))
-    .map(post => ({
-      id: post.id,
-      title: post.title,
-      excerpt: post.excerpt,
-      category: post.category,
-      tags: post.tags,
-      author: post.author,
-      publishedDate: post.publishedDate,
-      url: post.url,
-      imageUrl: post.imageUrl
-    }));
+    .sort((a, b) => b.publishedDate.localeCompare(a.publishedDate));
 }
 
 function getBlogPostById(postId) {
