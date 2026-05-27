@@ -64,7 +64,7 @@ const schedule = [
 const localStorageKey = "ai-hackathon-progress-current-user";
 const productionApiBaseUrl = "https://REPLACE_WITH_YOUR_WORKER_URL";
 const localApiBaseUrl = "http://127.0.0.1:8787";
-const leaderboardRefreshMs = 15000;
+const leaderboardRefreshMs = 30 * 60 * 1000;
 
 const apiBaseUrl = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? localApiBaseUrl

@@ -64,7 +64,7 @@ const schedule = [
 const localStorageKey = "ai-hackathon-progress-current-user";
 const productionApiBaseUrl = "https://REPLACE_WITH_YOUR_WORKER_URL";
 const localApiBaseUrl = "http://127.0.0.1:8787";
-const leaderboardRefreshMs = 15000;
+const leaderboardRefreshMs = 30 * 60 * 1000;
 
 const apiBaseUrl = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? localApiBaseUrl
@@ -129,10 +129,10 @@ async function refreshSharedProgress(options = {}) {
     showSyncStatus(`Live sync active. Last updated ${new Date().toLocaleTimeString()}.`, "ok");
   } catch (error) {
     if (!quiet) {
-      showStatus(`Could not load shared leaderboard data: ${error.message}`, "error");
+      showStatus(formatApiErrorMessage(`Could not load shared leaderboard data: ${error.message}`), "error");
     }
 
-    showSyncStatus(`Live sync unavailable: ${error.message}`, "error");
+    showSyncStatus(formatApiErrorMessage(`Live sync unavailable: ${error.message}`), "error");
   }
 }
 
@@ -297,7 +297,7 @@ async function handleSubmitProgress() {
     showStatus("Progress saved to the shared leaderboard.", "success");
     showSyncStatus(`Live sync active. Last updated ${new Date().toLocaleTimeString()}.`, "ok");
   } catch (error) {
-    showStatus(`Could not save progress: ${error.message}`, "error");
+    showStatus(formatApiErrorMessage(`Could not save progress: ${error.message}`), "error");
   } finally {
     elements.submitButton.disabled = false;
   }
@@ -487,4 +487,8 @@ function renderLinkOrDash(url, label) {
   }
 
   return `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+}
+
+function formatApiErrorMessage(message) {
+  return `${message} (API: ${apiBaseUrl})`;
 }
