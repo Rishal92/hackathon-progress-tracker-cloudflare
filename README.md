@@ -136,6 +136,7 @@ Add these in `Settings -> Secrets and variables -> Actions`:
 
 - `CLOUDFLARE_API_TOKEN`: API token with Worker and D1 permissions.
 - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare account ID.
+- `CLOUDFLARE_D1_DATABASE_ID`: D1 database ID for `hackathon-progress-db`.
 - `PAGES_ORIGIN_GITHUB`: Your Pages origin, for example `https://yourusername.github.io`.
 - `WORKER_API_BASE_URL`: Deployed Worker URL, for example `https://fuse-hackathon-api.your-subdomain.workers.dev`.
 
